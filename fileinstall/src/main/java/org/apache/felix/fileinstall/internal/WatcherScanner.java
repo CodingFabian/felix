@@ -42,9 +42,10 @@ public class WatcherScanner extends Scanner {
      *
      * @param directory the directory to scan
      * @param filterString a filter for file names
+     * @param subdirMode to use when scanning
      */
-    public WatcherScanner(BundleContext bundleContext, File directory, String filterString) throws IOException {
-        super(directory, filterString);
+    public WatcherScanner(BundleContext bundleContext, File directory, String filterString, String subdirMode) throws IOException {
+        super(directory, filterString, subdirMode);
         this.bundleContext = bundleContext;
         if (filterString != null) {
             this.fileMatcher = FileSystems.getDefault().getPathMatcher("regex:" + filterString);
