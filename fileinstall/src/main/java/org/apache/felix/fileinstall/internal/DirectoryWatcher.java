@@ -27,7 +27,6 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -37,6 +36,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.jar.JarInputStream;
@@ -113,8 +113,6 @@ public class DirectoryWatcher extends Thread implements BundleListener
 
     public final static String LOG_STDOUT = "stdout";
     public final static String LOG_JUL = "jul";
-
-    static final SecureRandom random = new SecureRandom();
 
     final File javaIoTmpdir = new File(System.getProperty("java.io.tmpdir"));
 
@@ -596,9 +594,10 @@ public class DirectoryWatcher extends Thread implements BundleListener
             if (!javaIoTmpdir.exists() && !javaIoTmpdir.mkdirs()) {
                 throw new IllegalStateException("Unable to create temporary directory " + javaIoTmpdir);
             }
+            Random random = new Random();
             for (;;)
             {
-                File f = new File(javaIoTmpdir, "fileinstall-" + Long.toString(random.nextLong()));
+                File f = new File(javaIoTmpdir, "fileinstall-" + random.nextLong());
                 if (!f.exists() && f.mkdirs())
                 {
                     tmpDir = f;
